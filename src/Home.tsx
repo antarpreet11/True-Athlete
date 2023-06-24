@@ -200,7 +200,7 @@ function Home() {
       {!finalAttestation ? (
         <WhiteBox>
           <Title>
-            I <b>attest</b> that I met
+            I <b>attest</b> the following credentials:
           </Title>
 
           <InputContainer>

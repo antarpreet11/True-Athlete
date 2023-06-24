@@ -1,6 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./Home";
+import Search from "./Search";
 import { Root } from "./Root";
 import Qr from "./Qr";
 import Connections from "./Connections";
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
         path: "/connections",
         element: <Connections />,
       },
+      {
+        path: "/search",
+        element: <Search />,
+      }
     ],
   },
 ]);

@@ -13,7 +13,7 @@ import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import invariant from "tiny-invariant";
 import { ethers } from "ethers";
 import { useState } from "react";
-import { MdOutlineVerified, MdVerified } from "react-icons/md";
+import { MdOutlineVerified, MdVerified, MdCancel } from "react-icons/md";
 
 const Container = styled.div`
   border-radius: 25px;
@@ -112,6 +112,7 @@ export function AttestationItem({ data }: Props) {
   const { data: signer } = useSigner();
 
   let Icon = MdVerified;
+  let Cancel = MdCancel;
 
   if (!isConfirmed) {
     Icon = MdOutlineVerified;
@@ -132,52 +133,21 @@ export function AttestationItem({ data }: Props) {
       <NameHolder>{data.name}</NameHolder>
       <Time>{dayjs.unix(data.time).format(timeFormatString)}</Time>
       <Check>
-        {isConfirmable ? (
-          <ConfirmButton
-            onClick={async (e) => {
-              e.stopPropagation();
-
-              setConfirming(true);
-              try {
-                const schemaEncoder = new SchemaEncoder("bool confirm");
-                const encoded = schemaEncoder.encodeData([
-                  { name: "confirm", type: "bool", value: true },
-                ]);
-
-                invariant(signer, "signer must be defined");
-                eas.connect(signer);
-
-                const tx = await eas.attest({
-                  data: {
-                    recipient: ethers.constants.AddressZero,
-                    data: encoded,
-                    refUID: data.id,
-                    revocable: true,
-                    expirationTime: 0,
-                  },
-                  schema: CUSTOM_SCHEMAS.CONFIRM_SCHEMA,
-                });
-
-                await tx.wait();
-                setConfirming(false);
-                window.location.reload();
-              } catch (e) {}
-            }}
-          >
-            {confirming ? "Confirming..." : "Confim"}
-          </ConfirmButton>
-        ) : (
-          <VerifyIconContainer>
-            <Icon
-              color={
-                data.confirmation
-                  ? theme.supporting["green-vivid-400"]
-                  : theme.neutrals["cool-grey-100"]
-              }
-              size={22}
-            />
-          </VerifyIconContainer>
-        )}
+        <VerifyIconContainer>
+          {
+            data.data[data.data.length - 1] !== '0' ? (
+              <Icon
+                color={theme.supporting["green-vivid-400"]}
+                size={22}
+              />
+            ) : (
+              <Cancel
+                color={theme.supporting["red-vivid-400"]} 
+                size={22}
+              />
+            )
+          }
+        </VerifyIconContainer>
       </Check>
     </Container>
   );
