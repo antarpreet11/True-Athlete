@@ -11,9 +11,45 @@ import { ResolvedAttestation } from "./utils/types";
 import { AttestationItem } from "./AttestationItem";
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #333342;
   @media (max-width: 700px) {
     width: 100%;
   }
+`;
+
+const Title = styled.h1`
+  color: #163a54;
+  font-size: 22px;
+  font-family: Montserrat, sans-serif;
+`;
+
+const InputBlock = styled.input`
+  border-radius: 10px;
+  border: 1px solid rgba(19, 30, 38, 0.33);
+  background: rgba(255, 255, 255, 0.5);
+  width: 76%;
+  color: #131e26;
+  font-size: 18px;
+  font-family: Chalkboard, sans-serif;
+  padding: 20px 10px;
+  text-align: center;
+`;
+
+const SearchButton = styled.div`
+  border-radius: 10px;
+  border: 1px solid #cfb9ff;
+  background: #333342;
+  width: 80%;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 18px;
+  font-family: Montserrat, sans-serif;
+  font-weight: 700;
+  cursor: pointer;
 `;
 
 const AttestationHolder = styled.div``;
@@ -71,24 +107,25 @@ const Search = () => {
     }
     
     return (
-        <div>
-            <form>
-                <label>Enter the Athelete's Address</label>
-                <input value={address} onChange={(e) => setAddress(e.target.value)}></input>
-                <button type="submit" onClick={submitHandler}>Search</button>
-            </form>
-            <Container>
-                <GradientBar />
-                <NewConnection>{address}</NewConnection>
-                <AttestationHolder>
-                    <WhiteBox>
-                    {attestations.map((attestation, i) => (
-                        <AttestationItem key={i} data={attestation} />
-                    ))}
-                    </WhiteBox>
-                </AttestationHolder>
-            </Container>
-        </div>
+        <Container>
+            <WhiteBox>
+                <Title>Athlete Lookup</Title>
+                <form style={{display: "flex", flexDirection: "column", alignItems: "center", gap: "10px"}}>
+                    <label>Enter the Athlete's Address</label>
+                    <InputBlock value={address} onChange={(e) => setAddress(e.target.value)} placeholder={"Address/ENS"}></InputBlock>
+                    <SearchButton onClick={submitHandler}>Search</SearchButton>
+                </form>
+            </WhiteBox>
+            <GradientBar />
+            <NewConnection>{address}</NewConnection>
+            <AttestationHolder>
+                <WhiteBox>
+                {attestations.map((attestation, i) => (
+                    <AttestationItem key={i} data={attestation} />
+                ))}
+                </WhiteBox>
+            </AttestationHolder>
+        </Container>
     )
 }
 

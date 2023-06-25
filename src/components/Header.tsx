@@ -5,7 +5,6 @@ import { CustomConnectButton } from "./ui/CustomConnectKit";
 import { activeChainConfig } from "../utils/utils";
 import invariant from "tiny-invariant";
 import { useAccount } from "wagmi";
-import { FaQrcode } from "react-icons/fa";
 
 const Outer = styled.div`
   font-family: "Nunito", sans-serif;
@@ -41,10 +40,6 @@ const Logo = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-`;
-
-const QR = styled(FaQrcode)`
-  margin-right: 10px;
 `;
 
 const LogoImage = styled.img`
@@ -130,9 +125,14 @@ export function Header() {
 
   let menuItems: MenuItemType[] = [
     {
-      title: "Make connection",
+      title: "Attest",
       onClick: () => navigate("/"),
       path: "/",
+    },
+    {
+      title: "Search",
+      onClick: () => navigate("/search"),
+      path: "/search",
     },
   ];
 
@@ -154,13 +154,6 @@ export function Header() {
             </LogoContainer>
             <Left>
               <Links>
-                {address && (
-                  <QR
-                    size={20}
-                    color={"#BD9EFF"}
-                    onClick={() => navigate("/qr")}
-                  />
-                )}
                 {menuItems.map((menuItem, i) => (
                   <MenuItem
                     key={i}

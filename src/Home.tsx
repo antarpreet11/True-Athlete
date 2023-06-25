@@ -257,13 +257,6 @@ function Home() {
               ? "Make attestation"
               : "Connect wallet"}
           </MetButton>
-
-          {status === "connected" && (
-            <>
-              <SubText to={"/qr"}>Show my QR code</SubText>
-              <SubText to={"/connections"}>Connections</SubText>
-            </>
-          )}
         </WhiteBox>
       ) : (
         <>
